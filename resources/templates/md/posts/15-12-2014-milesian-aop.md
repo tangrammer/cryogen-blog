@@ -24,7 +24,11 @@ In milesian/aop world the thing-to-happen is a milddleware fn and the place-wher
   (match [this protocol function-name function-args]))
 ```
 
+Pay attention that defrecord-wrapper.aop ns there are a few special matchers implentation included, nil value that returns nil, the your-fn-middleware itself that returns to itself, and a SimpleProtocolMatcher that returns the your-fn-middleware when the fn invoked belongs to protocol wich matchs the protocols provide:
 
+```clojure
+(defrecord-wrapper.aop/new-simple-protocol-matcher :fn your-fn-middleware :protocols [Protocol-1 Protocol-2 Protocol-3])
+```
 
 In this project you can find aop actions and component matchers that are thought to fit in milesian/BigBang
 
