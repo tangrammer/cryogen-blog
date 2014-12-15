@@ -1,15 +1,15 @@
-{:title "Hello"
+{:title "@tangrammer"
  :layout :page
  :page-index 0
  :navbar? true}
 
 
-My name is Juan Antonio Ruz, I'm 38 years old, live in Spain and in a self-taught way I started to develop more than 10 years ago ...
+Hello, my name is Juan Antonio Ruz, I'm 38 years old, live in Spain and in a self-taught way I started to develop more than 10 years ago ...
 
 This is my very summarised experience since 2006:
 
 ### JEE
-**(2006/2012)**
+**(2006/2012)** 
 
 During this time I was highly focused in JEE, working on companies (Hewlett Packard - Senior Programmer) and as a freelance developer and consultant. I worked with following patterns MVC, ORM and DI implemented on different frameworks (Struts, JSF, EJB3, Hibernate, Spring, Seam,  ...). From my java beginning, I always tried to develop with TDD and XP methodologies and was very passionate in Event and Aspect Oriented Programming. I worked as JavaEE teacher too, on private and public companies (+ 1500 Hours)
 

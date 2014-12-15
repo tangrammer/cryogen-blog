@@ -1,6 +1,6 @@
 {:site-title       "on the clojure move"
  :author           "@tangrammer"
- :description      "About my clojure adventure"
+ :description      "functional experiences from clojure language"
  :site-url         "http://tangrammer.github.io/"
  :post-root        "posts"
  :tag-root         "tags"
@@ -13,5 +13,5 @@
  :sass-dest        nil
  :resources        ["css" "js" "404.html"]
  :keep-files       [".git"]
- :disqus?          false
- :disqus-shortname ""}
+ :disqus?          true
+ :disqus-shortname "tangrammer" }

@@ -18,7 +18,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <h1><a href="{{index-uri}}">{{title}}</a></h1>
             </div>
             <!-- nav links -->
             <!--/.nav-collapse -->
@@ -27,16 +26,17 @@
 <div class="container">
 
             <!-- nav links -->
+
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li {% if home %} class="active" {% endif %}><a href="{{index-uri}}">Home</a></li>
-                    <li {% if archives %} class="active" {% endif %}><a href="{{archives-uri}}">Archives</a></li>
+                    <li {% if home %} class="active" {% endif %}><a href="{{index-uri}}">on the clojure move</a></li>
+                    <li {% if archives %} class="active" {% endif %}><a href="{{archives-uri}}">archives</a></li>
                     {% for nav-page in navbar-pages %}
                     <li {%ifequal page.uri nav-page.uri %} class="active" {% endifequal %}>
                         <a href="{{nav-page.uri}}">{{nav-page.title}}</a>
                     </li>
                     {% endfor %}
-                    <li><a href="{{rss-uri}}">RSS</a></li>
+                    <li><a href="{{rss-uri}}">rss</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -55,8 +55,8 @@
                 <div id="sidebar">
                     <h3>Links</h3>
                     <ul id="links">
-                        <li><img src="https://g.twimg.com/Twitter_logo_blue.png" width="16">
-                          <a href="http://twitter.com/tangrammer/">twitter.com/tangrammer</a></li>
+                        <li>
+                        <a href="http://github.com/juxt">github.com/juxt</a></li>
                         {% for page in sidebar-pages %}
                         <li><a href="{{page.uri}}">{{page.title}}</a></li>
                         {% endfor %}
@@ -80,7 +80,18 @@
                 </div>
             </div>
         </div>
-        <footer>Copyright &copy; 2014 Juan A. Ruz
+
+        <footer>
+          <p align="center">
+	    <img src="https://g.twimg.com/Twitter_logo_blue.png" width="16">
+            <a href="http://twitter.com/tangrammer/">twitter.com/tangrammer</a>
+	    |
+	    <img src="https://raw.github.com/github/media/master/octocats/blacktocat-16.png">
+            <a href="http://github.com/tangrammer/">github.com/tangrammer</a>
+	    |
+	    <a href="{{rss-uri}}">Atom Feed</a>
+          </p>
+Copyright &copy; 2014 Juan A. Ruz
             <p style="text-align: center;">Site generator powered by <a href="https://github.com/lacarmen/cryogen">Cryogen</a></p></footer>
     </div>
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
