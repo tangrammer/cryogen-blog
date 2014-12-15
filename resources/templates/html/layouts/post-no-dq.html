@@ -1,0 +1,19 @@
+{% extends "templates/html/layouts/base.html" %}
+{%block subtitle %}: {{post.title}}{% endblock %}
+{% block content %}
+<div id="post">
+    {% include "templates/html/layouts/post-content-no-tags.html" %}
+    <div id="prev-next">
+        {% if post.prev %}
+        <a href="{{post.prev.uri}}">&laquo; {{post.prev.title}}</a>
+        {% endif %}
+        {% if all post.prev post.next %}
+        ||
+        {% endif %}
+        {% if post.next %}
+        <a href="{{post.next.uri}}">{{post.next.title}} &raquo;</a>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
