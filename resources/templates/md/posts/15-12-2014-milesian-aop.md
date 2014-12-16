@@ -4,7 +4,7 @@
  :toc true}
 
 
-[milesian/aop](https://github.com/milesian/aop) clojure library lets you wrap your stuartsierra components in the same way as AOP does.
+[milesian/aop](https://github.com/milesian/aop) clojure library lets you wrap your stuartsierra components in the same way as AOP does. It includes system customization actions and component matchers.
 
 If you aren't familiar with Aspect Oriented Programming [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming) it's a programming paradigme that aims to increase modularity by allowing the separation of cross-cutting concerns. In other practical words/examples with AOP you can plug or unplug transversal functionality (also called aspects or concerns) to your existent code without changing it. Examples of cross-cutting concerns can be: applying security, logging and throwing events. 
 
@@ -25,15 +25,14 @@ In milesian/aop world the thing-to-happen is a milddleware fn and the place-wher
 (defprotocol defrecord-wrapper.aop/Matcher
   (match [this protocol function-name function-args]))
 ```
+### Matchers available in tangrammer/defrecord-wrapper
+Due that milesian/aop actually uses [tangrammer/defrecord-wrapper](https://github.com/tangrammer/defrecord-wrapper/), there are a few special matchers  for free that you can be intereseted on using:
++ `nil` value that returns nil
++ `fn` value  that returns itself, (it's a shortcut to apply your-fn-middleware for all fns protocol)
++ `defrecord-wrapper.aop/SimpleProtocolMatcher` that returns your-fn-middleware when the protocol of the fn invoked matchs with any of the the protocols provided
 
-Pay attention that defrecord-wrapper.aop ns there are a few special matchers implentation included, nil value that returns nil, the your-fn-middleware itself that returns to itself, and a SimpleProtocolMatcher that returns the your-fn-middleware when the fn invoked belongs to protocol wich matchs the protocols provide:
-
-```clojure
-(defrecord-wrapper.aop/new-simple-protocol-matcher :fn your-fn-middleware :protocols [Protocol-1 Protocol-2 Protocol-3])
-```
-
-In this project you can find aop actions and component matchers that are thought to fit in milesian/BigBang
+### Matchers available in milesian/aop
+In milesian/aop you can find  that are thought to fit in milesian/BigBang
 
 
-To get how this milesian/aop works on stuartsierra components you should start reading the internal tool used tangrammer/defrecord-wrapper due that we are actually wrapping defrecords that will behave as components. 
 
