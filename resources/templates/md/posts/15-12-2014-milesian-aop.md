@@ -4,11 +4,13 @@
  :toc true}
 
 
-[milesian/aop](https://github.com/milesian/aop) clojure library lets you wrap your stuartsierra components in the same way as AOP does. It includes system customization actions and component matchers.
+[milesian/aop](https://github.com/milesian/aop) clojure library lets you wrap your stuartsierra components in the same way as AOP does. It includes a component/update-system customization function and specific component-matchers.
 
-If you aren't familiar with Aspect Oriented Programming [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming) it's a programming paradigme that aims to increase modularity by allowing the separation of cross-cutting concerns. In other practical words/examples with AOP you can plug or unplug transversal functionality (also called aspects or concerns) to your existent code without changing it. Examples of cross-cutting concerns can be: applying security, logging and throwing events. 
+If you aren't familiar with Aspect Oriented Programming [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming) it's a programming paradigme that aims to increase modularity by allowing the separation of cross-cutting concerns. In other practical words/examples with AOP you can plug or unplug transversal functionality (also called aspects or concerns) to your existent code without changing it. Examples of cross-cutting concerns can be: applying security, logging and throwing events.    
+As wikipedia says:
+> Logging exemplifies a crosscutting concern because a logging strategy necessarily affects every logged part of the system. Logging thereby crosscuts all logged classes and methods....
 
-Your app only defines the **thing-to-happen** and the **place-where-will-happen**
+Your app only needs to define the **thing-to-happen** and the **place-where-will-happen**
 
 In milesian/aop world the thing-to-happen is a milddleware fn and the place-where-will-happen is calculated with a [Match](https://github.com/tangrammer/defrecord-wrapper/blob/master/src/defrecord_wrapper/aop.clj#L4) protocol implementation
 
@@ -25,11 +27,30 @@ In milesian/aop world the thing-to-happen is a milddleware fn and the place-wher
 (defprotocol defrecord-wrapper.aop/Matcher
   (match [this protocol function-name function-args]))
 ```
+### Simple Usage to apply AOP to your stuartsierra/component system
+```clojure
+;;  construct your instance of SystemMap as usual
+(def system-map (new-system-map))
+
+;; using milesian/BigBang to customize your system easily
+(bigbang/expand system-map
+                            {:before-start []
+                             :after-start  [[aop/wrap your-fn-middleware]]})
+
+;; Using plain clojure code
+(-> your-system-map
+    (component/update-system (comp component/start #(milesian.aop/wrap % your-fn-middleware)))
+```
+
+
 ### Matchers available in tangrammer/defrecord-wrapper
 Due that milesian/aop actually uses [tangrammer/defrecord-wrapper](https://github.com/tangrammer/defrecord-wrapper/), there are a few special matchers  for free that you can be intereseted on using:
 + `nil` value that returns nil
 + `fn` value  that returns itself, (it's a shortcut to apply your-fn-middleware for all fns protocol)
 + `defrecord-wrapper.aop/SimpleProtocolMatcher` that returns your-fn-middleware when the protocol of the fn invoked matchs with any of the the protocols provided
+
+
+
 
 ## milesian/aop Let's match with component perspective 
 
