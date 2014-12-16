@@ -31,8 +31,61 @@ Due that milesian/aop actually uses [tangrammer/defrecord-wrapper](https://githu
 + `fn` value  that returns itself, (it's a shortcut to apply your-fn-middleware for all fns protocol)
 + `defrecord-wrapper.aop/SimpleProtocolMatcher` that returns your-fn-middleware when the protocol of the fn invoked matchs with any of the the protocols provided
 
-### Matchers available in milesian/aop
-In milesian/aop you can find  that are thought to fit in milesian/BigBang
+## milesian/aop Let's match with component perspective 
+
+milesian/aop include a [tangramer.defrecord-wrapper/Match](https://github.com/tangrammer/defrecord-wrapper/blob/master/src/defrecord_wrapper/aop.clj#L4-L5) implementation that **use a stuartsierra/component perspective in contrast to** function and protocol perspective of tangrammer/defrecord-wrapper [SimpleProtocolMatcher](https://github.com/tangrammer/defrecord-wrapper/blob/master/src/defrecord_wrapper/aop.clj#L15) implementation.
+
+####  ComponentMatcher 
+This implementation  uses the name (system-map key) of the component in the system and try to match using its component protocols.
+For example if we take an example from [milesian/system-examples](https://github.com/milesian/system-examples/blob/master/src/milesian/system_examples.clj), the :c component implements Talk protocol, so if we write the following clojure code, all the Talk protocol function implementations of our :c component will be wrapped by [milesian.aop.utils/logging-function-invocation](https://github.com/milesian/aop/blob/master/src/milesian/aop/utils.clj#L20) 
+
+```clojure
+
+;; following milesian/BigBang system start pattern, we need to 
+;; include a milesian.aop/wrap action with a matcher 
+;; (in this case using ComponentMatcher impl)
+
+ [milesian.aop/wrap (milesian.aop.matchers/new-component-matcher 
+                                          :system system-map 
+                                          :components [:c] 
+                                          :fn milesian.aop.utils/logging-function-invocation)]                                          
+```
+
+###  Dependency Component Query Oriented 
+This project also contains two ComponentMatcher function constructors that let you query/filter the components to match using a dependency component query point of view. 
 
 
+#### ComponentTransitiveDependenciesMatcher fn constructor
+**[new-component-transitive-dependencies-matcher](https://github.com/milesian/aop/blob/master/src/milesian/aop/matchers.clj#L33)** uses [stuartsierra/dependency transitive-dependencies](https://github.com/stuartsierra/dependency/blob/master/src/com/stuartsierra/dependency.clj#L19)  to get the dependencies fo each component specified in ```:components [...]``` argument , so if you use same example project and changes fn constructor, passing :c component, you'll have matched following components :a :b :c, due that [:c depends on :b and :b depends on :a besides :c also depends on :a](https://github.com/milesian/system-examples/blob/master/src/milesian/system_examples.clj#L45-L50)
+
+```clojure
+  (milesian.aop.matchers/new-component-transitive-dependencies-matcher 
+                                          :system system-map 
+                                          :components [:c] 
+                                          :fn milesian.aop.utils/logging-function-invocation)
+ ;; it's the same as                                           
+ 
+   (milesian.aop.matchers/new-component-matcher 
+                                          :system system-map 
+                                          :components [:a :b :c] 
+                                          :fn milesian.aop.utils/logging-function-invocation)
+ 
+```
+
+ 
+#### ComponentTransitiveDependentsMatcher fn constructor
+**[new-component-transitive-dependents-matcher](https://github.com/milesian/aop/blob/master/src/milesian/aop/matchers.clj#L40)** uses [stuartsierra/dependency transitive-dependents](https://github.com/stuartsierra/dependency/blob/master/src/com/stuartsierra/dependency.clj#L22) to get the dependents components for each component specified in ```:components [...]``` argument, then if you use same example project and changes fn constructor, passing :a component you'll have matched following components :a :b :c, due that [:c depends on :b and :b depends on :a besides :c also depends on :a](https://github.com/milesian/system-examples/blob/master/src/milesian/system_examples.clj#L45-L50)
+```clojure
+  (milesian.aop.matchers/new-component-transitive-dependents-matcher 
+                                          :system system-map 
+                                          :components [:a] 
+                                          :fn milesian.aop.utils/logging-function-invocation)
+ ;; it's the same as                                           
+ 
+   (milesian.aop.matchers/new-component-matcher 
+                                          :system system-map 
+                                          :components [:a :b :c] 
+                                          :fn milesian.aop.utils/logging-function-invocation)
+ 
+```
 
