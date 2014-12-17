@@ -4,8 +4,8 @@
             [ring.util.response :refer [redirect]]
             [cryogen-core.watcher :refer [start-watcher!]]
             [cryogen-core.compiler :refer [compile-assets-timed read-config]]
-            [lein-less.less :as less]
-            [me.raynes.fs :as fs]
+  ;          [lein-less.less :as less]
+   ;         [me.raynes.fs :as fs]
             ))
 
 (defn init []
@@ -17,7 +17,7 @@
                         :target-path (format "css/%s.css" f)}))
 
 
-(compile-assets-timed)
+  (compile-assets-timed)
 
 
 

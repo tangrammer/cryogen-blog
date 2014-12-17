@@ -10,7 +10,8 @@
                            [compojure "1.2.2"]
                            [ring-server "0.3.1"]
                            [cryogen-core "0.1.1"]
-                           [tangrammer/lein-less "1.7.3"]]
+;                           [tangrammer/lein-less "1.7.3"]
+                           ]
             :plugins [[lein-ring "0.8.13"]]
             :resource-paths ["resources"]
             :main cryogen.compiler
