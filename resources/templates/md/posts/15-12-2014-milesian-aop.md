@@ -2,29 +2,34 @@
  :layout :post
  :tags  ["milesian" "aop" "stuartsierra-component"]
  :toc true}
+ 
+ 
+   
+![image](https://dl.dropboxusercontent.com/u/8688858/epicarp-small.gif)
 
-
-A clojure lib that lets you wrap your stuartsierra/components in the same way as AOP does. 
+### introduction
+[milesian/aop](https://github.com/milesian/aop)  lets you wrap your stuartsierra/components in the same way as AOP does. 
 
 ... for those who aren't familiar with [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming), it is a programming paradigme that aims to increase modularity by allowing the separation of cross-cutting concerns. Examples of cross-cutting concerns can be: applying security, logging and throwing events, and as wikipedia explains:
 > Logging exemplifies a crosscutting concern because a logging strategy necessarily affects every logged part of the system. Logging thereby crosscuts all logged classes and methods....
 
 
 ### what is it included?
-[milesian/aop](https://github.com/milesian/aop) includes a **wrap function** as customization system function and specific **component-matchers** to apply middleware to those components that are matched.
+It includes a **wrap function** as a customization system function and specific **component-matchers** to calculate the-component-place where we'll apply middleware.
 
-### basic understanding of milesian/aop 
-Let's *refactor* for a while some AOP words to easy understand the functionality provided.
+### basic howto 
+To simplify AOP meanings, let's try *refactoring* for a while two AOP concepts to quickly understand the functionality provided.
 
-+ **thing-to-happen** = aspect/cross-cutting concern
-+ **place-where-will-happen** = target
-
-
-Basically to include a new **thing-to-happen** in your app, you need to define the **thing-to-happen** and the **place-where-will-happen**
++ the **thing-to-happen** = aspect/cross-cutting concern
++ the **place-where-will-happen** = target
 
 
-### the thing-to-happen :- fn-middleware
-The **thing-to-happen** is a function milddleware, very similar to [common ring middleware](https://github.com/ring-clojure/ring/wiki/Concepts#middleware)
+So, basically to include a new **thing-to-happen** in your component system, you need to define the **thing-to-happen** and the **place-where-will-happen**
+
+   
+
+#### **thing-to-happen**
+It's **a function milddleware**, very similar to [common ring middleware](https://github.com/ring-clojure/ring/wiki/Concepts#middleware)
 
 ```clojure
 (defn your-fn-middleware
@@ -32,18 +37,23 @@ The **thing-to-happen** is a function milddleware, very similar to [common ring 
   (let [fn-result (apply *fn* (conj args this))]
    fn-result))
 ```
-
-### the place-where-will-happen :- defrecord-wrapper.aop/Matcher
-The **place-where-will-happen** is calculated with a [Matcher](https://github.com/tangrammer/defrecord-wrapper/blob/master/src/defrecord_wrapper/aop.clj#L4) protocol implementation
+   
+#### **place-where-will-happen**
+It's calculated with a [defrecord-wrapper.aop/Matcher](https://github.com/tangrammer/defrecord-wrapper/blob/master/src/defrecord_wrapper/aop.clj#L4) protocol implementation
 
 ```clojure
 (defprotocol defrecord-wrapper.aop/Matcher
   (match [this protocol function-name function-args]))
 ```
+
+
+
+### Minimal example
 As you can see the options available to decide if the **thing** has to happen in current **place** are component protocol, function-name and function-args
+Let's try to use this AOP stuff in a minimal example: 
 
-For example imagine you have this component :
 
+#### 1. define protocols and component 
 ```clojure
 (defprotocol Database
   (save-user [_ user])
@@ -51,20 +61,20 @@ For example imagine you have this component :
 
 (defprotocol WebSocket
   (send [_ data]))
- 
+
 (defrecord YourComponent []
-	Database
-  	(save-user [this user]
-   	 (format "saving user: %" user ))
-  	(remove-user [this user]
-   	 (format "removing user: %" user ))
-	Websocket
-  	(send [this data]
-   	 (format "sending data: %" data)))
+  Database
+  (save-user [this user]
+    (format "saving user: %" user ))
+  (remove-user [this user]
+    (format "removing user: %" user ))
+  Websocket
+  (send [this data]
+    (format "sending data: %" data)))
    
 ```
 
-and you want to match some fns
+#### 2. define your matcher (place-where-will-happen)
 
 ```clojure
 ;; maybe all your component fns protocols
@@ -72,42 +82,44 @@ and you want to match some fns
 (defrecord YourComponentMatcher []
   defrecord-wrapper.aop/Matcher
   (match [this protocol function-name function-args]
-   	(contains? #{Database WebSocket} protocol)))
+    (contains? #{Database WebSocket} protocol)))
 
 ;; or maybe only your Database/remove-user function
 
 (defrecord YourRefinedComponentMatcher []
   defrecord-wrapper.aop/Matcher
   (match [this protocol function-name function-args]
-   	(and (= Database protocol) (=function-name "remove-user"))))
+    (and (= Database protocol) (= function-name "remove-user"))))
 ```
 
-and you define your loggin AOP middleware to apply
+#### 3. define your middleware to apply (thing-to-happen)
 
 ```clojure
 (defn logging-middleware
   [*fn* this & args]
   (let [fn-result (apply *fn* (conj args this))]
-   (println (meta *fn*))
+   (println "aop-logging/ function-name:" (:function-name (meta *fn*)))
    fn-result))
 ```
 
 
-apply aop to your system => wrap with optional middleware your components
+#### 4. wrap your system (apply conditional middleware to your components)
  
 ```clojure
 ;;  construct your instance of SystemMap as usual
 (def system-map (component/system-map :your-component (YourComponent.)))
 
-;; Using plain clojure code
-(-> system-map
-    (component/update-system (comp component/start #(milesian.aop/wrap % logging-middleware)))
-    
-;; if you prefer better way to express previous composition start function
-;;  you can use milesian/BigBang too
-(bigbang/expand system-map
-                {:before-start []
-                 :after-start  [[milesian.aop/wrap logging-middleware]]})
+;; Using stuartsierra customization way
+(def started-system (-> system-map
+                        (component/update-system 
+                         (comp component/start #(milesian.aop/wrap % logging-middleware)))))
+  
+  ;; or, if you prefer a better way to express the same
+  ;; you can use milesian/BigBang
+(def started-system (milesian.bigbang/expand
+                     system-map
+                     {:before-start []
+                      :after-start  [[milesian.aop/wrap logging-middleware]]}))
 
 ```
 
@@ -115,11 +127,12 @@ apply aop to your system => wrap with optional middleware your components
 ## Let's match with component perspective 
 
 milesian/aop includes a [Matcher](https://github.com/tangrammer/defrecord-wrapper/blob/master/src/defrecord_wrapper/aop.clj#L4-L5) implementation that **uses a stuartsierra/component perspective in contrast to** function and protocol perspective of [matchers](https://github.com/tangrammer/defrecord-wrapper/blob/master/README.md#matchers-available-in-tangrammerdefrecord-wrapper) included on more generic tangrammer/defrecord-wrapper lib
+Also offers a simple "Dependency Component Query Oriented" that I found very useful to think/query the system in a component way :- in our component case is the same as straighforward way 
 
 ####  ComponentMatcher 
-This implementation  uses the system component id to match using its component protocols.
+This implementation  uses the system component-id to match using its component protocols.
 
-Example using previous example will match both protocols: Database and Websocket, and therefore all their related fns
+Example using previous example will match both protocols: Database and Websocket, and therefore all their related fns. Previous matchers examples used protocols and fn-names to do their works, now we are at a high level, a component level.
 
 ```clojure
 
@@ -129,40 +142,71 @@ Example using previous example will match both protocols: Database and Websocket
 ```
 
 ###  Dependency Component Query Oriented 
-This project also contains two ComponentMatcher function constructors that let you query/filter the components to match using a dependency component query point of view. 
+This project also contains two ComponentMatcher function constructors that let you match using a dependency component query point of view. 
 
-
-#### ComponentTransitiveDependenciesMatcher fn constructor
-**[new-component-transitive-dependencies-matcher](https://github.com/milesian/aop/blob/master/src/milesian/aop/matchers.clj#L33)** uses [stuartsierra/dependency transitive-dependencies](https://github.com/stuartsierra/dependency/blob/master/src/com/stuartsierra/dependency.clj#L19)  to get the dependencies fo each component specified in ```:components [...]``` argument , so if you use same example project and changes fn constructor, passing :c component, you'll have matched following components :a :b :c, due that [:c depends on :b and :b depends on :a besides :c also depends on :a](https://github.com/milesian/system-examples/blob/master/src/milesian/system_examples.clj#L45-L50)
+Let's extend our data example adding a couple of components more:
 
 ```clojure
-  (milesian.aop.matchers/new-component-transitive-dependencies-matcher 
-                                          :system system-map 
-                                          :components [:c] 
-                                          :fn milesian.aop.utils/logging-function-invocation)
- ;; it's the same as                                           
- 
-   (milesian.aop.matchers/new-component-matcher 
-                                          :system system-map 
-                                          :components [:a :b :c] 
-                                          :fn milesian.aop.utils/logging-function-invocation)
+(defprotocol Greetings
+  (morning [_]))
+
+(defrecord GreetingsComponent [your-component]
+  Greetings
+  (morning [this]
+    (send your-component "Morning, it's a great day here!"))
+
+(defprotocol Connector
+  (connect [_]))
+
+(defrecord ConnectorComponent [greetings-component]
+  Connector
+  (connect [this]
+    (morning greetings-component))
+```
+And also we'll need extend our system definition
+
+```clojure
+(def system-map (component/system-map   
+                 :your-component (YourComponent.)
+                 :greetings-components (->(GreetingsComponent.)
+                                          (component/using [:your-component]))
+                 :connector-component (->(ConnectorComponent.)
+                                         (component/using [:connector-component]))))
+
+```
+
+#### ComponentTransitiveDependenciesMatcher fn constructor
+**[new-component-transitive-dependencies-matcher](https://github.com/milesian/aop/blob/master/src/milesian/aop/matchers.clj#L33)** uses [stuartsierra/dependency transitive-dependencies](https://github.com/stuartsierra/dependency/blob/master/src/com/stuartsierra/dependency.clj#L19) to get all component dependencies for each component specified in `:components [...]` argument. 
+
+```clojure
+(milesian.aop.matchers/new-component-transitive-dependencies-matcher 
+ :system system-map 
+ :components [:your-component] 
+ :fn milesian.aop.utils/logging-function-invocation)
+;; it's the same as                                           
+
+(milesian.aop.matchers/new-component-matcher 
+ :system system-map 
+ :components [:your-component :greetings-component :connector-component] 
+ :fn milesian.aop.utils/logging-function-invocation)
  
 ```
 
  
 #### ComponentTransitiveDependentsMatcher fn constructor
-**[new-component-transitive-dependents-matcher](https://github.com/milesian/aop/blob/master/src/milesian/aop/matchers.clj#L40)** uses [stuartsierra/dependency transitive-dependents](https://github.com/stuartsierra/dependency/blob/master/src/com/stuartsierra/dependency.clj#L22) to get the dependents components for each component specified in ```:components [...]``` argument, then if you use same example project and changes fn constructor, passing :a component you'll have matched following components :a :b :c, due that [:c depends on :b and :b depends on :a besides :c also depends on :a](https://github.com/milesian/system-examples/blob/master/src/milesian/system_examples.clj#L45-L50)
+**[new-component-transitive-dependents-matcher](https://github.com/milesian/aop/blob/master/src/milesian/aop/matchers.clj#L40)** uses [stuartsierra/dependency transitive-dependents](https://github.com/stuartsierra/dependency/blob/master/src/com/stuartsierra/dependency.clj#L22) to get the all dependents components for each component specified in `:components [...]` argument.
+
 ```clojure
-  (milesian.aop.matchers/new-component-transitive-dependents-matcher 
-                                          :system system-map 
-                                          :components [:a] 
-                                          :fn milesian.aop.utils/logging-function-invocation)
- ;; it's the same as                                           
- 
-   (milesian.aop.matchers/new-component-matcher 
-                                          :system system-map 
-                                          :components [:a :b :c] 
-                                          :fn milesian.aop.utils/logging-function-invocation)
+(milesian.aop.matchers/new-component-transitive-dependents-matcher 
+ :system system-map 
+ :components [:connector-component] 
+ :fn milesian.aop.utils/logging-function-invocation)
+;; it's the same as                                           
+
+(milesian.aop.matchers/new-component-matcher 
+ :system system-map 
+ :components [:your-component :greetings-component :connector-component] 
+ :fn milesian.aop.utils/logging-function-invocation)
  
 ```
 
