@@ -15,7 +15,7 @@
 
 
 ### what is it included?
-It includes a **wrap function** as a customization system function and specific **component-matchers** to calculate the-component-place where we'll apply middleware.
+It includes a **wrap function** that works as a customization system function and specific **component-matchers** to calculate the-component-place where we'll apply middleware.
 
 ### basic howto 
 To simplify AOP meanings, let's try *refactoring* for a while two AOP concepts to quickly understand the functionality provided.
@@ -73,26 +73,7 @@ Let's try to use this AOP stuff in a minimal example:
     (format "sending data: %" data)))
    
 ```
-
-#### 2. define your matcher (place-where-will-happen)
-
-```clojure
-;; maybe all your component fns protocols
-
-(defrecord YourComponentMatcher []
-  defrecord-wrapper.aop/Matcher
-  (match [this protocol function-name function-args]
-    (contains? #{Database WebSocket} protocol)))
-
-;; or maybe only your Database/remove-user function
-
-(defrecord YourRefinedComponentMatcher []
-  defrecord-wrapper.aop/Matcher
-  (match [this protocol function-name function-args]
-    (and (= Database protocol) (= function-name "remove-user"))))
-```
-
-#### 3. define your middleware to apply (thing-to-happen)
+#### 2. define your middleware to apply (thing-to-happen)
 
 ```clojure
 (defn logging-middleware
@@ -101,6 +82,28 @@ Let's try to use this AOP stuff in a minimal example:
    (println "aop-logging/ function-name:" (:function-name (meta *fn*)))
    fn-result))
 ```
+
+#### 3. define your matcher (place-where-will-happen)
+
+```clojure
+;; maybe you want match all your component fns protocols
+
+(defrecord YourComponentMatcher [middleware]
+  defrecord-wrapper.aop/Matcher
+  (match [this protocol function-name function-args]
+    (when (contains? #{Database WebSocket} protocol))
+    middleware))
+    
+
+;; or maybe you're only are interested in Database/remove-user function
+
+(defrecord YourRefinedComponentMatcher [middleware]
+  defrecord-wrapper.aop/Matcher
+  (match [this protocol function-name function-args]
+    (when (and (= Database protocol) (= function-name "remove-user")))
+    middleware))
+```
+
 
 
 #### 4. wrap your system (apply conditional middleware to your components)
@@ -112,14 +115,23 @@ Let's try to use this AOP stuff in a minimal example:
 ;; Using stuartsierra customization way
 (def started-system (-> system-map
                         (component/update-system 
-                         (comp component/start #(milesian.aop/wrap % logging-middleware)))))
+                         (comp component/start 
+                               #(milesian.aop/wrap % (YourRefinedComponentMatcher. logging-middleware))))))
   
   ;; or, if you prefer a better way to express the same
   ;; you can use milesian/BigBang
 (def started-system (milesian.bigbang/expand
                      system-map
                      {:before-start []
-                      :after-start  [[milesian.aop/wrap logging-middleware]]}))
+                      :after-start  [[milesian.aop/wrap (YourRefinedComponentMatcher. logging-middleware)]]}))
+
+```
+#### 5. try your wrapped-started-system
+ 
+```clojure
+;;  construct your instance of SystemMap as usual
+(-> started-system :your-component (send "data"))
+=> repl output: aop-logging/ function-name: send
 
 ```
 
@@ -130,7 +142,7 @@ milesian/aop includes a [Matcher](https://github.com/tangrammer/defrecord-wrappe
 Also offers a simple "Dependency Component Query Oriented" that I found very useful to think/query the system in a component way :- in our component case is the same as straighforward way 
 
 ####  ComponentMatcher 
-This implementation  uses the system component-id to match using its component protocols.
+This implementation  uses the system component-id to match using its component protocols and the middleware fn to apply.
 
 Example using previous example will match both protocols: Database and Websocket, and therefore all their related fns. Previous matchers examples used protocols and fn-names to do their works, now we are at a high level, a component level.
 
@@ -138,7 +150,7 @@ Example using previous example will match both protocols: Database and Websocket
 
 (milesian.aop.matchers/new-component-matcher :system system-map 
                                              :components [:your-component] 
-                                             :fn milesian.aop.utils/logging-function-invocation)]                                          
+                                             :fn logging-middleware)]                                          
 ```
 
 ###  Dependency Component Query Oriented 
@@ -182,13 +194,13 @@ And also we'll need extend our system definition
 (milesian.aop.matchers/new-component-transitive-dependencies-matcher 
  :system system-map 
  :components [:your-component] 
- :fn milesian.aop.utils/logging-function-invocation)
+ :fn logging-middleware)
 ;; it's the same as                                           
 
 (milesian.aop.matchers/new-component-matcher 
  :system system-map 
  :components [:your-component :greetings-component :connector-component] 
- :fn milesian.aop.utils/logging-function-invocation)
+ :fn logging-middleware)
  
 ```
 
@@ -200,13 +212,13 @@ And also we'll need extend our system definition
 (milesian.aop.matchers/new-component-transitive-dependents-matcher 
  :system system-map 
  :components [:connector-component] 
- :fn milesian.aop.utils/logging-function-invocation)
+ :fn logging-middleware)
 ;; it's the same as                                           
 
 (milesian.aop.matchers/new-component-matcher 
  :system system-map 
  :components [:your-component :greetings-component :connector-component] 
- :fn milesian.aop.utils/logging-function-invocation)
+ :fn logging-middleware)
  
 ```
 
