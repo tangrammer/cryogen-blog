@@ -11,7 +11,7 @@ This is my very summarised experience since 2006:
 ### JEE
 **(2006/2012)** 
 
-During this time I was highly focused in JEE, working on companies (Hewlett Packard - Senior Programmer) and as a freelance developer and consultant. I worked with following patterns MVC, ORM and DI implemented on different frameworks (Struts, JSF, EJB3, Hibernate, Spring, Seam,  ...). From my java beginning, I always tried to develop with TDD and XP methodologies and was very passionate in Event and Aspect Oriented Programming. I worked as JavaEE teacher too, on private and public companies (+ 1500 Hours)
+During this time I was highly focused in JEE, working on companies (Hewlett Packard - Senior Programmer) and as a freelance developer and consultant. I worked with  patterns as MVC, ORM and DI implemented on different ways (Struts, JSF, EJB3, Hibernate, Spring, Seam,  ...). From my java beginning, I always tried to develop with TDD and XP methodologies and was very passionate in Event and Aspect Oriented Programming. I worked as JavaEE teacher too, on private and public companies (+ 1500 Hours)
 
 ### RoR/js
 **(2011/2013)**
@@ -21,13 +21,13 @@ Looking forward to do a bit creative and experimental programming I decided to m
 ### js/Clojure/ClojureScript
 **(2012/now)**
 
-I discovered clojure with [quil](https://github.com/quil/quil) (clojure on top of [processing.org](http://processing.org/)). From then, my fascination about its LISP features and the clojure community never ends.
+I discovered clojure with [quil](https://github.com/quil/quil) (clojure on top of [processing.org](http://processing.org/)). From then, my fascination about its features and the clojure community never ends.
 
 
-#### enterpriseweb.com
+#### [enterpriseweb.com](http://enterpriseweb.com/)
 **2012/2013**
 
-I was teleworking  with [enterpriseweb.com](http://enterpriseweb.com/) a New Yorker company doing a lot of js (nodejs, requirejs, jquery, jasmine, D3 ...), clojure and clojurescript. During this time I had to get familiar with big data concepts and concurrent patterns. That's the reasong that I have some background on hadoop, zookeeper, solr, mongodb, accumulo and related clojure libs (liebke/zookeeper-clj, liebke/avout, nathanmarz/cascalog, alexott/clojure-hadoop). In this time  I developed some clojure projects using [open-stack](https://www.openstack.org/) clojure rest [wrapper](https://github.com/tangrammer/open-stack-wrapper) , a snmp4j clojure rest wrapper , and a open-stack clojurescript - om.clj - react.js UI [client](https://github.com/tangrammer/open-stack-ui).
+I was teleworking  with [enterpriseweb.com](http://enterpriseweb.com/) a New Yorker company doing a lot of js (nodejs, requirejs, jquery, jasmine, D3 ...), clojure and clojurescript. During this time I had to get familiar with big data concepts and concurrent patterns. That's the reasong that I have some background on hadoop, zookeeper, solr, mongodb, accumulo and related clojure libs (liebke/zookeeper-clj, liebke/avout, nathanmarz/cascalog, alexott/clojure-hadoop). In this time  I developed some clojure projects: [clojure wrapper on top of Open Stack](https://github.com/tangrammer/open-stack-wrapper) , a [library to work with snmp4j](https://github.com/tangrammer/ew_snmp) , and a [open-stack om.clj client](https://github.com/tangrammer/open-stack-ui).
 
 On this time I worked with core.async, core.logic, and swannodette/om. I attach some video examples to show superficially my interest on clojurescript and client side development.
 
@@ -40,8 +40,8 @@ And this other [video](http://vimeo.com/89089056) shows a previous js experiment
 ### juxt.pro
 **Last 6 months**
 
-I had the chance to telework with [JUXT](https://github.com/juxt/) (a Londoner company, one of the most important clojurian  european companies). During this time I worked very closed with one of the founders [Malcolm Sparks](https://github.com/malcolmsparks) making serious contributions to [juxt/cylon](https://github.com/juxt/cylon), [juxt/modular](https://github.com/juxt/cylon)
-During this time and very related to juxt/modular, I've worked in customizing [stuartsierra/component](https://github.com/stuartsierra/component) systems. Two reasons took me there, firstly Malcolm Sparks needed co-dependency to refine juxt/modular design and the other reason was my interest in getting real time visualization of component system calls. As a result of this research I've written a few tools and libs that I detail below:
+I had the chance to telework with [JUXT](https://github.com/juxt/) (a Londoner company, one of the most important clojurian  european companies). During this time I worked very closed with one of the founders [Malcolm Sparks](https://github.com/malcolmsparks) making serious contributions to [juxt/cylon](https://github.com/juxt/cylon), [juxt/modular](https://github.com/juxt/cylon). Also I was working in customizing [stuartsierra/component](https://github.com/stuartsierra/component) systems. Two reasons took me there, firstly co-dependency was needed to refine juxt/modular design and the other reason was my interest in getting real time visualization of component system calls. As a result of this research I've written a few tools and libs that I detail below:
+
 * [tangrammer/co-dependency](https://github.com/tangrammer/co-dependency) lets you use Reverse Dependency Injection
 * [milesian/BigBang](https://github.com/milesian/BigBang) compose component/update(s)-system in component/start invocation time
 * [milesian/aop](https://github.com/milesian/aop) uses AOP in stuartsierra/component systems

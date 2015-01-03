@@ -4,8 +4,7 @@
  :disqus-shortname ""}
 
 
-Almost three years have passed since my first clojure *collision* and now my first post about the result clojure moving.... 
+Almost three years have passed since my first clojure *collision* and now starting to publish about the resulting clojure move.  
 
-Now starting to publish about it! 
-
-Hope you enjoy!
+Hope you enjoy!  
+Juan
