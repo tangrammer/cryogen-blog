@@ -13,14 +13,22 @@ This is my very summarised experience until 2006:
 **juxt.pro**   
 
 ---
-I had the chance to telework with [JUXT](https://github.com/juxt/) (a Londoner company, one of the most important clojurian  european companies). During this time I worked very closed with one of the founders [Malcolm Sparks](https://github.com/malcolmsparks) making serious contributions to [juxt/cylon](https://github.com/juxt/cylon), [juxt/modular](https://github.com/juxt/cylon). Also I was working in customizing [stuartsierra/component](https://github.com/stuartsierra/component) systems. Two reasons took me there, firstly co-dependency was needed to refine juxt/modular design and the other reason was my interest in getting real time visualization of component system calls. As a result of this research I've written a few tools and libs that I detail below:
+Recently I had the chance to telework with [JUXT](https://github.com/juxt/) (one of the most important  european clojurian companies based in London). During this time I worked with one of the founders [Malcolm Sparks](https://github.com/malcolmsparks) making contributions to:  
 
-* [tangrammer/co-dependency](https://github.com/tangrammer/co-dependency) lets you use Reverse Dependency Injection
-* [milesian/BigBang](https://github.com/milesian/BigBang) compose component/update(s)-system in component/start invocation time
+*  [juxt/cylon](https://github.com/juxt/cylon): designing and developing the TOTP two-factor authentication support, conducting the background research and co-authoring the OAuth2 support. 
+
+* [juxt/modular](https://github.com/juxt/modular): adding [less module](https://github.com/juxt/modular/tree/master/modules/less) and solving [co-dependency](https://github.com/tangrammer/co-dependency) pattern in [stuartsierra/component](https://github.com/stuartsierra/component) library to help in some communication issues as, for example,  bidi.Router < - - > bidi.WebService relation
+
+Working in customizing systems I was also interested in getting real time visualization of component system calls. As a result of this research I wrote:
+
+* [milesian/BigBang](https://github.com/milesian/BigBang) decomplect your stuartsierra customization system from component/start
+* [milesian/identity](https://github.com/milesian/identity) component self reflection
 * [milesian/aop](https://github.com/milesian/aop) uses AOP in stuartsierra/component systems
+* [tangrammer/webclient-system-diagram](https://github.com/tangrammer/webclient-system-diagram) Web client for real time system visualisations. Here you can see a [picture](https://camo.githubusercontent.com/282505e0818069e3871986cd00ef7513a0272f82/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f383638383835382f67726170685f7365712e706e67) and a [video](https://vimeo.com/114150238) , (I only clicked on opensensors.io login button and after getting the visualisations I sent the login form.) that shows the final result of real time visualization of component system calls
 
 
-Here you can see a [picture](https://camo.githubusercontent.com/282505e0818069e3871986cd00ef7513a0272f82/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f383638383835382f67726170685f7365712e706e67) and a [video](https://vimeo.com/114150238) , (I only clicked on opensensors.io login button and after getting the visualisations I sent the login form.) that shows the final result of real time visualization of component system calls
+Some of the libraries that I had to work with in my juxt job were: stuartsierra/component, postgresql/postgresql, clojurewerkz/cassaforte, clj-time, liberator, prismatic/schema, prismatic/plumbing, core.async, bidi, clostache, cylon, joplin, clojurescript, om
+
 
 ---
 
@@ -28,7 +36,7 @@ Here you can see a [picture](https://camo.githubusercontent.com/282505e0818069e3
 **opensensors.io**   
 
 ---
-As juxter developer I usually had to colaborate with  [opensensors.io](https://opensensors.io/), a Londoner start-up about IoT composed by: [Malcolm Sparks](https://github.com/malcolmsparks), [Michael Klishin](https://github.com/michaelklishin) and [Yodit Stanton](https://github.com/yods).
+As juxter developer I usually had to colaborate with  [opensensors.io](https://opensensors.io/), a scalable real time IoT messaging engine that can easily process millions of messages a second from any internet connected device. In this project I had the chande to work with: [Malcolm Sparks](https://github.com/malcolmsparks), [Michael Klishin](https://github.com/michaelklishin) and [Yodit Stanton](https://github.com/yods). 
 
 ---
 
@@ -51,7 +59,7 @@ And this other [video](http://vimeo.com/89089056) shows a previous js experiment
 
 ---
 
-Looking forward to do a bit creative and experimental programming I decided to migrate to dynamic languages (RoR, js) and data visualization (processing.org, openlayers, d3.js) lands
+Looking forward to do a bit creative and experimental programming I decided to migrate to dynamic languages (RoR, js) and data visualization (processing.org, openlayers, d3.js) lands. Some examples: [1](https://www.flickr.com/photos/codigodelaimagen/sets/72157627936252594/) [2](https://vimeo.com/35173992) [3](https://vimeo.com/30575630)
 
 ---
 
@@ -61,6 +69,7 @@ Looking forward to do a bit creative and experimental programming I decided to m
 ---
 
 I discovered clojure with [quil](https://github.com/quil/quil) (clojure on top of [processing.org](http://processing.org/)). From then, my fascination about its features and the clojure community never ends.
+
 
 
 ---
