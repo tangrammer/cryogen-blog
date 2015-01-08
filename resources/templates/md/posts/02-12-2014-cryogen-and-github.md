@@ -34,7 +34,8 @@ change resources/templates/config.edn
    
 ### 6. publish your changes
 
-`$ git add . && git commit -am "WIP" && git push`
+`$ git add . && git commit -am "WIP" && git push`   
+
 `$ cd resources/public &&  git add . && git commit -am "WIP" && git push && cd ../../`   	
 	
 ### (Loop) => Instructions to make changes
