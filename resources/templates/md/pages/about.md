@@ -4,9 +4,7 @@
  :navbar? true}
 
 
-Hello, my name is Juan Antonio Ruz, I'm 38 years old, live in Spain and in a self-taught way I started to develop more than 10 years ago ...
-
-This is my very summarised experience until 2006:
+@tangrammer is also called Juan Antonio Ruz. All the mornings drinks a limon juice to wake up his analytic thinking. He found that playing with functional programming  could be so funny like Art, thus he changed the mutable objects by pure functions. Nowadays is difficult talk to him without hearing about good clojure references. Currently is 38 years old and lives in Sevilla (Spain), this is his very summarised experience until 2006, thanks for reading!
 
 ---
 **2014-06 / 2014-12**   
