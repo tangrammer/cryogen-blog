@@ -1,12 +1,12 @@
-{:title "Integrate cylon Oauth2 client and provider"
+{:title "Cylon Oauth2 Client and Authorization Server"
  :layout :post
  :tags  ["cylon" "oauth2"]
  :toc true}
 
 
-A couple of months before, [juxt/cylon](https://github.com/juxt/cylon) added Oauth2 **client and provider** functionality using a [modular](https://github.com/juxt/modular) approach. This post, using an example integration [project](https://github.com/tangrammer/modular-cylon-example), tries to explain the implementation design details and the easy way to integrate cylon Oauth2 in your component project.
+A couple of months before, [juxt/cylon](https://github.com/juxt/cylon) added Oauth2 **client and provider** functionality using a [modular](https://github.com/juxt/modular) approach. This post, using an example integration [project](https://github.com/tangrammer/modular-cylon-example), tries to explain the implementation design details and the easy way to integrate Cylon Oauth2 client and provider in your component project.
  
-I'd like to clear that [modular-cylon-example](https://github.com/tangrammer/modular-cylon-example) has been generated using the modular template `bootstrap-cover` following instructions that you can find on [modularity.org](http://modularity.org/). On top of this code I only translate the minimum needed code (mostly authored by [Malcolm Sparks](https://github.com/malcolmsparks)) to get working [juxt/cylon](https://github.com/juxt/cylon) oauth2 extension. 
+I'd like to clear that [modular-cylon-example](https://github.com/tangrammer/modular-cylon-example) has been generated using the modular template `bootstrap-cover` following instructions that you can find on [modularity.org](http://modularity.org/). On top of this code I only translate the minimum needed code (mostly authored by [Malcolm Sparks](https://github.com/malcolmsparks)) to get working [juxt/cylon](https://github.com/juxt/cylon) oauth2 functionality. 
  
 ## Let's visualise our component system
 
@@ -28,16 +28,18 @@ Then, I added the juxt/cylon components to provide Oauth2  [client](https://gith
 
 **Note that this demo, trying to be simple, uses atom backed stores** not intended to be used in production environments (you'l loose all your persistent data each time your app restarts). You can replace that persistence implementation by any one persistence implementations you prefer (for example postgre), only you'll have to implement the required protocol.
 
-You can see last components plus 22 more :) . Don't be afraid I'll work a bit on getting clear this first diagram
+You can see now last bootstrap-cover components plus 22 more :) . Don't be afraid I'll work a bit on getting clear this first diagram. Bootstrap-cover components are highlighted in yellow and oauth components specifically written in this demo project in orange (related with mailing, form rendering and atom storing). 
+Following this graph we can distinguish 2 servers, the new **:authorization-server-http-listener** component tree that represents the Oauth provider, and the old one :http-listener-listener that has the **:webapp-oauth-client** included
 
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/all-bis.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/all-bis.png)
 
 ### Let's focus on Oauth2
-As I suspect that you're thinking now that OAuth2 is really complex now :), let's split a bit this complex diagram to get the simplicity of OAuth2 specification
+As I suspect that you're thinking now that OAuth2 is really complex now :), let's split a bit this complex diagram to reach the simplicity of OAuth2 specification
 
-#### juxt/cylon persistence:  TokenStore and SessionStore protocols
+#### Cylon persistence:  TokenStore and SessionStore protocols
 
-As you can see in the system diagram there're a lot of session-store and token-store components, and obviuosly related with storing data. Following the protocols descriptions:
+As you can see in the system diagram there're a lot of session-store and token-store components, designed to keep information in the different Oauth communication flows. 
+Following are the protocols descriptions:
 
 **cylon.token-store.protocols/[TokenStore](https://github.com/juxt/cylon/blob/master/src/cylon/token_store/protocols.clj#L11)**
 
@@ -54,7 +56,9 @@ As you can see in the system diagram there're a lot of session-store and token-s
   them on the HTTP response. A SessionStore will typically wrap a
   TokenStore.
 
-Due that all session-store need a token-store to maintain the related data, let's remove from our graph all those obvius token-store components (highlighted in orange). And the same with listener and router components (hightlighted in yellow)
+
+
+Due that all session-store need a token-store to maintain related data, let's remove from our graph all those obvius token-store components (highlighted in orange). And the same with listener and router components (hightlighted in yellow)
 
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png" alt="Drawing" width="100%"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png)
 <br><br><br><hr><br><br><br>
