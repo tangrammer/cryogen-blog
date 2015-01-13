@@ -38,7 +38,7 @@ As I suspect that you're thinking now that OAuth2 is really complex now :), let'
 
 #### Cylon persistence:  TokenStore and SessionStore protocols
 
-As you can see in the system diagram there're a lot of session-store and token-store components, designed to keep information in the different Oauth communication flows. 
+As you can see in the system diagram there're a lot of session-store and token-store components needed to keep information in the different Oauth communication flows. 
 Following are the protocols descriptions:
 
 **cylon.token-store.protocols/[TokenStore](https://github.com/juxt/cylon/blob/master/src/cylon/token_store/protocols.clj#L11)**
@@ -57,26 +57,23 @@ Following are the protocols descriptions:
   TokenStore.
 
 
-
-Due that all session-store need a token-store to maintain related data, let's remove from our graph all those obvius token-store components (highlighted in orange). And the same with listener and router components (hightlighted in yellow)
+Due that all session-store need a token-store to maintain related data, let's remove from our visualisation all those obvius token-store components (highlighted in orange). On the other hand, let's do the same with listener and router component relations(hightlighted in yellow) removing listeners from visualisation
 
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png" alt="Drawing" width="100%"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png)
 <br><br><br><hr><br><br><br>
 
-Now, why don't we remove public static resource services (in yellow) and the clostache-templater (in orange)? ... they actually don't have any relation with Oauth2
+Now, why don't we remove public static resource services (in yellow) and the clostache-templater (in orange)? ... they actually don't have any relation with Oauth2 besides html rendering
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/second-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/second-step.png)
 <br><br><br><hr><br><br><br>
 
-And, one pass more to take away the routers but highlighting only web services, authorization-server web-services in yellow, and web-server web-services in orange. 
+And, one pass more to take away the routers but keeping highlighted web services from both servers, authorization-server web-services in yellow, and web-server web-services in orange. Pay attention that although all of highlighted components in this graph are webservices although some webservices depend on other webservices, as you can see with :authorization-server and :login, or :bootstrap-cover-website-website and :webapp-oauth-client
 
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png)
-<br><br><br><hr><br><br><br>
 
 **Yeah, it doesn't hurt now!**    
-On authorizarion-listener side (yellow) following webservices: `[:authorization-server, :reset-password, :signup-form :login :logout]` 
+We have now the **:authorizarion-listener** yellow  webservices components: `[:authorization-server, :reset-password, :signup-form :login :logout]`  and the **:http-listener** orange webservices components: `[:bootstrap-cover-website-website :webapp-oauth-client]` 
 
-On http-listener side (orange) following ones: `[:bootstrap-cover-website-website :webapp-oauth-client]` 
-
+<br><br><br><hr><br><br><br>
 
 ###TODO: full doc In progress
 Keep working here in analyzing the no obvious components (oauth2 roles related) :authorization-server and :webapp-oauth-client
