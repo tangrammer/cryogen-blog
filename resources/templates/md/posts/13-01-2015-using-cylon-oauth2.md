@@ -38,7 +38,7 @@ As I suspect that you're thinking now that OAuth2 is really complex now :), let'
 
 #### Cylon persistence:  TokenStore and SessionStore protocols
 
-As you can see in the system diagram there're a lot of session-store and token-store components needed to keep information in the different Oauth communication flows. 
+As you can see in the system diagram there're a lot of **session-store** and **token-store** components needed to keep information in the different Oauth communication flows. 
 Following are the protocols descriptions:
 
 **cylon.token-store.protocols/[TokenStore](https://github.com/juxt/cylon/blob/master/src/cylon/token_store/protocols.clj#L11)**
@@ -57,21 +57,67 @@ Following are the protocols descriptions:
   TokenStore.
 
 
-Due that all session-store need a token-store to maintain related data, let's remove from our visualisation all those obvius token-store components (highlighted in orange). On the other hand, let's do the same with listener and router component relations(hightlighted in yellow) removing listeners from visualisation
+Due that all **session-store** need a token-store to maintain related data, let's remove from our visualisation all those obvius token-store components (highlighted in orange). On the other hand, let's do the same with listener and router component relations(hightlighted in yellow) removing listeners from visualisation
 
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png" alt="Drawing" width="100%"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png)
 <br><br><br><hr><br><br><br>
-
-Now, why don't we remove public static resource services (in yellow) and the clostache-templater (in orange)? ... they actually don't have any relation with Oauth2 besides html rendering
+#### modular.template/Templater && modular.bidi/StaticResourceService
+As we are trying to get into Oauth2 specification and implementation details, why don't we take way the public **static resource services** (in yellow)  and the **clostache-templater** (in orange)? ... they actually don't have any relation with Oauth2 besides html rendering
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/second-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/second-step.png)
 <br><br><br><hr><br><br><br>
 
-And, one pass more to take away the routers but keeping highlighted web services from both servers, authorization-server web-services in yellow, and web-server web-services in orange. Pay attention that although all of highlighted components in this graph are webservices although some webservices depend on other webservices, as you can see with :authorization-server and :login, or :bootstrap-cover-website-website and :webapp-oauth-client
+#### cylon oauth webservices
+And, one pass more to take away the routers but keeping highlighted web services from both servers, authorization-server web-services in yellow, and web-server web-services in orange. Pay attention that although all of the highlighted components in this graph are webservices, some webservices depend on other webservices, as you can see with :authorization-server and :login, or :bootstrap-cover-website-website and :webapp-oauth-client
 
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png)
 
-**Yeah, it doesn't hurt now!**    
-We have now the <span style="background-color:yellow">**:authorizarion-listener**</span>   webservices components: `[:authorization-server, :reset-password, :signup-form :login :logout]`  and the <span style="background-color:orange">**:http-listener**</span> webservices components: `[:bootstrap-cover-website-website :webapp-oauth-client]`. 
+#### Yeah, it doesn't hurt now!
+Then, we have reached to:
+
++ **:authorizarion-listener** webservices components: [**:authorization-server, :reset-password, :signup-form :login :logout**] 
++ **:http-listener** webservices components: [**:bootstrap-cover-website-website :webapp-oauth-client**]. 
+
+### Oauth Client: ring middleware 
+The **:webapp-oauth-client** (that represents the **oauth client role**) lives on the same http-listener that our old :bootstrap-cover-website-website to provide it with oauth client functionality. In other words, your current webapp only need this dependency to get the oauth client behavior (grant privileges, logout, solicit access token, validate token, refresh access token).
+
+Reference implementation cylon.oauth.client.web-client/[WebClient](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client/web_client.clj)
+
+
+```clojure
+
+WebClient Protocols implemented
+===============================
+
+modular.bidi/WebService (routes):
+ + :get "/grant" 
+ + :get "/logout" 
+
+cylon.oauth.client/AccessTokenGrantee
+  (solicit-access-token
+    [_ req uri]
+    [_ req uri scope-korks]
+    "Initiate a process (typically via a HTTP redirect) that will result
+    in a new request being made with an access token, if possible. Don't
+    request specific scopes but get the defaults for the client.")
+
+  (expired? [_ req access-token])
+  
+  (refresh-access-token [_ req]
+    "Initiate a process (typically via a HTTP redirect) that will result
+    in a new request being made with an access token, if possible."
+    ))
+
+cylon.authentication.protocols/RequestAuthenticator
+(authenticate [_ request]
+    "Return (as a map) any credentials that can be determined from the
+    given Ring request")
+
+
+
+```
+
+
+
 
 ### Oauth Client 
 Then, regarding these orange components now, they live on the original **:http-listener** generated by bootstrap-cover modular lein template, and besides the old **:bootstrap-cover-website-website** that makes the dynamic web responses we have <span style="background-color:orange">**:webapp-oauth-client**</span> that besides behave as an independet webservice connected to its related :router, it also accomplish cylon.oauth.client/[AccessTokenGrantee](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client.clj#L9) and cylon.authentication.protocols/[RequestAuthenticator](https://github.com/juxt/cylon/blob/master/src/cylon/authentication/protocols.clj#L5) protocols   
