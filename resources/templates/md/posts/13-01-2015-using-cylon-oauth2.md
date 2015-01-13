@@ -1,19 +1,21 @@
-{:title "Using juxt/cylon Oauth2"
+{:title "Integrate juxt/cylon Oauth2"
  :layout :post
  :tags  ["cylon" "oauth2"]
  :toc true}
 
+
+A couple of months before, [juxt/cylon](https://github.com/juxt/cylon) added Oauth2 client and provider functionality using a [modular](https://github.com/juxt/modular) approach. This post, using an example integration [project](https://github.com/tangrammer/modular-cylon-example), tries to explain the implementation design details and the easy way to integrate cylon Oauth2 in your component project.
  
 #### how was this [modular-cylon-example](https://github.com/tangrammer/modular-cylon-example) project made?
-Firstly, I'd like to clear that this project has been generated using the modular template `bootstrap-cover` following instructions that you can find on [modularity.org](http://modularity.org/). On top of this code I only translate the minimum needed code (mostly authored by [Malcolm Sparks](https://github.com/malcolmsparks)) to get working juxt/cylon oauth2 feature. 
+I'd like to clear that this project has been generated using the modular template `bootstrap-cover` following instructions that you can find on [modularity.org](http://modularity.org/). On top of this code I only translate the minimum needed code (mostly authored by [Malcolm Sparks](https://github.com/malcolmsparks)) to get working juxt/cylon oauth2 extension. 
 
 
  
-## Lets take a look at this demo system
+## Let's take a look at this demo system
 
-Althouh I've followed (and sometimes directed) this [Oauth2](https://tools.ietf.org/html/rfc6749) implementation, I usually need to visualise the system to think about it, and also in this case I'll show you the system to better understanding
+Althouh I've followed closely this [Oauth2](https://tools.ietf.org/html/rfc6749) implementation, I usually need to visualise the system to think about it, and also in this case I'll show you the system for better understanding
 
-### Step 1  Generate your bootstrap-cover system
+### Generate your bootstrap-cover system
 Here you go the result of: `$ lein new modular foo bootstrap-cover`
 
 
@@ -24,8 +26,8 @@ As you can see bootstrap-cover template, provides you with one http-listener (mo
 Note that although :modular-bidi-router-webrouter implements WebService too, is modular.ring/WebRequestHandler protocol the requirement for http-listener-listener to use it, so ["... the idea here is that you want individual components to be able to 'contribute' groups of routes"](https://groups.google.com/forum/#!topic/clojure/YP_VM6Zf4RQ).
 
 
-### Final step :-  Add Oauth2 components
-In this final step I added the juxt/cylon components that implements Oauth2 to provide Authorization-Server and Client roles.
+###  Add Oauth2 components
+Here, I added the juxt/cylon components that implements Oauth2 to provide [Authorization-Server](https://github.com/tangrammer/modular-cylon-example/blob/master/src/modular/cylon_oauth_example/system.clj#L143) and [Client](https://github.com/tangrammer/modular-cylon-example/blob/master/src/modular/cylon_oauth_example/system.clj#L277) roles.
 
 **Note that this demo, trying to be simple, uses an atom backed store not intended to be used in production environments (you'd loose all your persistent data each time your app restarts). You can replace that persistence implementation by any one persistence implementations you prefer (for example postgre), only you'll have to implements the require cylon protocol.
 
