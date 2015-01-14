@@ -113,6 +113,10 @@ cylon.oauth.client/AccessTokenGrantee
 ```
 Then, <span style="background-color:orange">**:webapp-oauth-client**</span> besides behaving as an independet modular.bidi/**WebService** connected to its related :router, and responsing to `/grant` and `/logout` http `get` calls it also accomplish cylon.oauth.client/[AccessTokenGrantee](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client.clj#L9) for granting privileges, logout, soliciting access token, validating token and refreshing tokens. 
 
+<br><br><br><hr><br><br><br>
+
+### RequestAuthenticator :client-request-authenticator
+
 
 cylon.oauth.client.request-authenticator-client/RequestAuthenticatorClient
 
