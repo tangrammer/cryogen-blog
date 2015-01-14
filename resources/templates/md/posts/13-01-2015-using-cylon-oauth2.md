@@ -107,20 +107,27 @@ cylon.oauth.client/AccessTokenGrantee
     in a new request being made with an access token, if possible."
     ))
 
-cylon.authentication.protocols/RequestAuthenticator
-(authenticate [_ request]
-    "Return (as a map) any credentials that can be determined from the
-    given Ring request")
 
 
 
 ```
-
-
 Then, <span style="background-color:orange">**:webapp-oauth-client**</span> besides behaving as an independet modular.bidi/**WebService** connected to its related :router, and responsing to `/grant` and `/logout` http `get` calls it also accomplish cylon.oauth.client/[AccessTokenGrantee](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client.clj#L9) for granting privileges, logout, soliciting access token, validating token and refreshing tokens. 
 
+
+cylon.oauth.client.request-authenticator-client/RequestAuthenticatorClient
+
+```clojure
+
+RequestAuthenticatorClient Protocols implemented
+;===============================
+
+cylon.authentication.protocols/RequestAuthenticator
+(authenticate [_ request]
+    "Return (as a map) any credentials that can be determined from the
+    given Ring request")
+```
  
-And in this demo project we use also this client as a cylon.authentication.protocols/[RequestAuthenticator](https://github.com/juxt/cylon/blob/master/src/cylon/authentication/protocols.clj#L5) behaving as oauth resource-server, letting us to protect specific web responses (protected feature web page)
+In this demo project, our **:website** component has restricted pages, so it uses a  cylon.authentication.protocols/[RequestAuthenticator](https://github.com/juxt/cylon/blob/master/src/cylon/authentication/protocols.clj#L5) to protect specific web responses (protected feature web page)
  
 <br><br><br><hr><br><br><br>
 
