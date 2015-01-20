@@ -77,16 +77,19 @@ Then, we get following webservices in two servers
 + **:authorization-listener** webservices components: [**:authorization-server, :reset-password, :signup-form :login :logout**] 
 + **:http-listener** webservices components: [**:bootstrap-cover-website-website :webapp-oauth-client**]. 
 
-### Oauth Client: WebService + AccessTokenGrantee + RequestAuthenticator
-The **:webapp-oauth-client** (that represents the **oauth client role**) lives on the same http-listener that our old **:bootstrap-cover-website-website** to provide it with oauth client functionality. In other words, your current webapp only need this dependency to get the oauth client behavior (grant privileges, logout, solicit access token, validate token, refresh access token).
+<hr><br><br><br>
+
+# Oauth Client
+#### WebService + AccessTokenGrantee + RequestAuthenticator
+The **:webapp-oauth-client** (that represents the **oauth client role**) lives on the same http-listener that our old **:bootstrap-cover-website-website** to provide it with oauth client functionality. In other words, your current webapp only need this dependency to get the oauth client behavior (grant privileges, logout, solicit access token, validate token, refresh access token), moreover it can authenticate requests based in client session identity.  
 
 Reference implementation cylon.oauth.client.web-client/[WebClient](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client/web_client.clj)
 
 
 ```clojure
 
-WebClient Protocols implemented
-;===============================
+WebClient Protocols
+;==================
 
 modular.bidi/WebService (routes):
  + :get "/grant" 
@@ -112,18 +115,14 @@ cylon.authentication.protocols/RequestAuthenticator
     "Return (as a map) any credentials that can be determined from the
     given Ring request")
 
-
-
 ```
-Then, <span style="background-color:orange">**:webapp-oauth-client**</span> besides behaving as an independet modular.bidi/**WebService** connected to its related :router, and responsing to `/grant` and `/logout` http `get` calls it also accomplish cylon.oauth.client/[AccessTokenGrantee](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client.clj#L9) for granting privileges, logout, soliciting access token, validating token and refreshing tokens. 
+
+Then, <span style="background-color:orange">**:webapp-oauth-client**</span> besides behaving as an independet modular.bidi/**WebService** connected to its related :router, and responsing to `/grant` and `/logout` http `get` calls it also accomplish cylon.oauth.client/**AccessTokenGrantee** for soliciting access token, validating token and refreshing tokens. 
+
+Also our client side can use the user identity obtained from auth-server to restrict client data using cylon.authentication.protocols/**RequestAuthenticator** protocol. Please be aware that client data is not user data so the way that client authenticate its own data is responsability of client and is outside of OAuht2 spec. Anyway juxt/cylon provides a practical [middleware](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client.clj#L28) to protect client resources based in the  client-session-store component and the identity obtained once user is logged with the auth-server. You can see how to use it this middleware on the demo project
 
 <br><br><br><hr><br><br><br>
-
  
-In this demo project, our **:website** component has restricted pages, so it uses a  cylon.authentication.protocols/[RequestAuthenticator](https://github.com/juxt/cylon/blob/master/src/cylon/authentication/protocols.clj#L5) to protect specific web responses (protected feature web page)
- 
-<br><br><br><hr><br><br><br>
-
 ### Oauth Provider :authorization-server
 ```clojure
 cylon.oauth.server.server/AuthorizationServer
