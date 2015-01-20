@@ -72,13 +72,13 @@ And, one pass more to take away the routers but keeping highlighted web services
 [<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png)
 
 #### Yeah, it doesn't hurt now!
-Then, we have reached to:
+Then, we get following webservices in two servers
 
-+ **:authorizarion-listener** webservices components: [**:authorization-server, :reset-password, :signup-form :login :logout**] 
++ **:authorization-listener** webservices components: [**:authorization-server, :reset-password, :signup-form :login :logout**] 
 + **:http-listener** webservices components: [**:bootstrap-cover-website-website :webapp-oauth-client**]. 
 
-### Oauth Client: ring middleware 
-The **:webapp-oauth-client** (that represents the **oauth client role**) lives on the same http-listener that our old :bootstrap-cover-website-website to provide it with oauth client functionality. In other words, your current webapp only need this dependency to get the oauth client behavior (grant privileges, logout, solicit access token, validate token, refresh access token).
+### Oauth Client: WebService + AccessTokenGrantee + RequestAuthenticator
+The **:webapp-oauth-client** (that represents the **oauth client role**) lives on the same http-listener that our old **:bootstrap-cover-website-website** to provide it with oauth client functionality. In other words, your current webapp only need this dependency to get the oauth client behavior (grant privileges, logout, solicit access token, validate token, refresh access token).
 
 Reference implementation cylon.oauth.client.web-client/[WebClient](https://github.com/juxt/cylon/blob/master/src/cylon/oauth/client/web_client.clj)
 
@@ -107,6 +107,10 @@ cylon.oauth.client/AccessTokenGrantee
     in a new request being made with an access token, if possible."
     ))
 
+cylon.authentication.protocols/RequestAuthenticator
+(authenticate [_ request]
+    "Return (as a map) any credentials that can be determined from the
+    given Ring request")
 
 
 
@@ -115,21 +119,6 @@ Then, <span style="background-color:orange">**:webapp-oauth-client**</span> besi
 
 <br><br><br><hr><br><br><br>
 
-### RequestAuthenticator :client-request-authenticator
-
-
-cylon.oauth.client.request-authenticator-client/RequestAuthenticatorClient
-
-```clojure
-
-RequestAuthenticatorClient Protocols implemented
-;===============================
-
-cylon.authentication.protocols/RequestAuthenticator
-(authenticate [_ request]
-    "Return (as a map) any credentials that can be determined from the
-    given Ring request")
-```
  
 In this demo project, our **:website** component has restricted pages, so it uses a  cylon.authentication.protocols/[RequestAuthenticator](https://github.com/juxt/cylon/blob/master/src/cylon/authentication/protocols.clj#L5) to protect specific web responses (protected feature web page)
  
