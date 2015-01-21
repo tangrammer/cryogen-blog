@@ -34,7 +34,7 @@ Some of the libraries that I had to work with in my juxt job were: stuartsierra/
 **opensensors.io**   
 
 ---
-As juxter developer I usually had to colaborate with  [opensensors.io](https://opensensors.io/), a scalable real time IoT messaging engine that can easily process millions of messages a second from any internet connected device. In this project I had the chande to work with: [Malcolm Sparks](https://github.com/malcolmsparks), [Michael Klishin](https://github.com/michaelklishin) and [Yodit Stanton](https://github.com/yods). 
+As juxter developer I usually had to colaborate with  [opensensors.io](https://opensensors.io/), a scalable real time IoT messaging engine that can easily process millions of messages a second from any internet connected device. This project was co-directed by: [Malcolm Sparks](https://github.com/malcolmsparks), [Michael Klishin](https://github.com/michaelklishin) and [Yodit Stanton](https://github.com/yods). 
 
 ---
 
@@ -57,7 +57,7 @@ And this other [video](http://vimeo.com/89089056) shows a previous js experiment
 
 ---
 
-Looking forward to do a bit creative and experimental programming I decided to migrate to dynamic languages (RoR, js) and data visualization (processing.org, openlayers, d3.js) lands. Some examples: [1](https://www.flickr.com/photos/codigodelaimagen/sets/72157627936252594/) [2](https://vimeo.com/35173992) [3](https://vimeo.com/30575630)
+Looking forward to do a bit creative and experimental programming I decided to migrate to dynamic typed languages (Ruby and javaScript) and data visualization (processing.org, openlayers, d3.js) lands. Some examples: [1](https://www.flickr.com/photos/codigodelaimagen/sets/72157627936252594/) [2](https://vimeo.com/35173992) [3](https://vimeo.com/30575630)
 
 ---
 
