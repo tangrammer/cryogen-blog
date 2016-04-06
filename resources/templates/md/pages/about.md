@@ -6,12 +6,41 @@
 
 @tangrammer is also called Juan Antonio Ruz. All the mornings drinks a limon juice to wake up his analytic thinking. He found that playing with functional programming  could be so funny like Art, thus he changed the mutable objects by pure functions. Nowadays is difficult talk to him without hearing about good clojure references. Currently is 38 years old and lives in Sevilla (Spain), this is his very summarised experience until 2006, thanks for reading!
 
+
+---
+**2015-03 / 2016-05**   
+**deep-impact.ch**   
+
+---
+
+Last year I teleworked with [DEEP-IMPACT-AG](http://deepimpact.ch/) a swiss company based in Winterthur that defines itself as a web passionate.
+
+They wanted me as clojure introductor in the company so i was charged to migrate legacy projects and to define new ones. Also I was frequently required to develop in java and javascript/react_js 
+
+Following are some of the clojure libs that we fortunately used:
+* [datomic](http://www.datomic.com/)
+* [aleph](https://github.com/ztellman/aleph)
+* [yada](https://github.com/juxt/yada)
+* [component](https://github.com/stuartsierra/component)
+* [modular](https://github.com/juxt/modular)
+* [yesql](https://github.com/krisajenkins/yesql)
+* [graph](https://github.com/plumatic/plumbing)
+* [schema](https://github.com/plumatic/schema)
+
+I took the advantage of working closely with APIs to write an interesting lib to deal with the logic flow of controller fns [flowgic](https://github.com/DEEP-IMPACT-AG/flowgic)
+
+
+
+Definitely, I enjoyed a lot this company, the great team and its web philosophy focused in user experience and performance. 
+
+
+
 ---
 **2014-06 / 2014-12**   
 **juxt.pro**   
 
 ---
-Recently I had the chance to telework with [JUXT](https://github.com/juxt/) (one of the most important  european clojurian companies based in London). During this time I worked with one of the founders [Malcolm Sparks](https://github.com/malcolmsparks) making contributions to:  
+I had the chance to telework with [JUXT](https://github.com/juxt/) (one of the most important  european clojurian companies based in London). During this time I worked with one of the founders [Malcolm Sparks](https://github.com/malcolmsparks) making contributions to:  
 
 *  [juxt/cylon](https://github.com/juxt/cylon): designing and developing the TOTP two-factor authentication support, conducting the background research and co-authoring the OAuth2 support. 
 
@@ -72,7 +101,7 @@ I discovered clojure with [quil](https://github.com/quil/quil) (clojure on top o
 
 ---
 
-**2016 / 2012**   
+**2006 / 2012**   
 **JEE**   
 
 ---
