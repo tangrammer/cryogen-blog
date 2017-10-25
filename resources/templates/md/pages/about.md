@@ -4,7 +4,39 @@
  :navbar? true}
 
 
-@tangrammer is also called Juan Antonio Ruz. All the mornings drinks a limon juice to wake up his analytic thinking. He found that playing with functional programming  could be so funny like Art, thus he changed the mutable objects by pure functions. Nowadays is difficult talk to him without hearing about good clojure references. Currently is 38 years old and lives in Sevilla (Spain), this is his very summarised experience until 2006, thanks for reading!
+@tangrammer is also called Juan Antonio Ruz. He found that playing with functional programming could be so funny like Arts, thus he changed the mutable objects by pure functions. Nowadays is difficult talk to him without some jokes about good clojure references. Currently is 41 years old and lives in Sevilla (Spain), this is his very summarised experience from 2006, thanks for reading!
+
+
+---
+**2017-01 / now **   
+**ride-on.es**   
+
+---
+
+[RIDE ON](http://www.ride-on.es/en/) "Shared mobility systems" Spanish company based in Madrid
+
+First oportunity to telework as a clojure engineer for a spanish company! Times moving :)
+
+This time, I had to take the handover of a great juxt.pro developed backend project. So far, is being great although I have to deal with a complex async system.
+
+More info [here](https://juxt.pro/blog/posts/rideon.html)
+
+
+
+
+
+---
+**2016-06 / 2016-07**   
+**swarmloyalty.co.za**   
+
+---
+
+[SWARM LOYALTY](https://swarmloyalty.co.za) South African company based in Cape Town 
+
+Teleworking as a clojure introductor and main designer and developer for a new backend API that would mirror Star Bucks API in this world region
+
+Two high productivity months to leave the project in a consistent state to be fully delivered in the following months
+
 
 
 ---
@@ -13,7 +45,7 @@
 
 ---
 
-Last year I teleworked with [DEEP-IMPACT-AG](http://deepimpact.ch/) a swiss company based in Winterthur that defines itself as a web passionate.
+I teleworked with [DEEP-IMPACT-AG](http://deepimpact.ch/) a swiss company based in Winterthur that defines itself as a web passionate.
 
 They wanted me as clojure introductor in the company so i was charged to migrate legacy projects and to define new ones. Also I was frequently required to develop in java and javascript/react_js 
 
