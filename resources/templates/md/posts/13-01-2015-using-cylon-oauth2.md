@@ -17,7 +17,7 @@ Here you go the system result of:
 `$ lein new modular foo bootstrap-cover`
 
  
-[<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/bootstrap-cover.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/bootstrap-cover.png)
+[<img src="/css/images/cylon-oauth2-example/bootstrap-cover.png" alt="Drawing" style="width: 100%;"/>](/css/images/cylon-oauth2-example/bootstrap-cover.png)
 
 As you can see **bootstrap-cover** template, provides you with a :http-listener ([modular.http-kit/Webserver](https://github.com/juxt/modular/blob/master/modules/http-kit/src/modular/http_kit.clj#L13)) and four webservices ([modular.bidi/WebService](https://github.com/juxt/modular/blob/master/modules/bidi/src/modular/bidi.clj#L18)), all of them are instances of [modular.bidi/StaticResourceService](https://github.com/juxt/modular/blob/master/modules/bidi/src/modular/bidi.clj#L49) (to provide jquery, bootstrap and public resources) except **:bootstrap-cover-website-website** that makes the dynamic website responses.  
 Note that although **:modular-bidi-router-webrouter** implements [WebService](https://github.com/juxt/modular/blob/master/modules/bidi/src/modular/bidi.clj#L18) too, is modular.ring/[WebRequestHandler](https://github.com/juxt/modular/blob/master/modules/ring/src/modular/ring.clj#L10) protocol the requirement for :http-listener-listener to use it. You can find more info about modular.bidi/[Router](https://github.com/juxt/modular/blob/master/modules/bidi/src/modular/bidi.clj#L129) [here](https://groups.google.com/forum/#!topic/clojure/YP_VM6Zf4RQ).
@@ -31,7 +31,7 @@ Then, I added the juxt/cylon components to provide Oauth2  [client](https://gith
 You can see now last bootstrap-cover components plus 22 more :) . Don't be afraid I'll work a bit on getting clear this first diagram. Bootstrap-cover components are highlighted in yellow and oauth components specifically written in this demo project in orange (related with mailing, form rendering and atom storing). 
 Following this graph we can distinguish 2 servers, the new **:authorization-server-http-listener** component tree that represents the Oauth provider, and the old one :http-listener-listener that has the **:webapp-oauth-client** included
 
-[<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/all-bis.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/all-bis.png)
+[<img src="/css/images/cylon-oauth2-example/all-bis.png" alt="Drawing" style="width: 100%;"/>](/css/images/cylon-oauth2-example/all-bis.png)
 
 ### Let's focus on Oauth2
 As I suspect that you're thinking now that OAuth2 is really complex now :), let's split a bit this complex diagram to reach the simplicity of OAuth2 specification
@@ -59,17 +59,17 @@ Following are the protocols descriptions:
 
 Due that all **session-store** need a token-store to maintain related data, let's remove from our visualisation all those obvius token-store components (highlighted in orange). On the other hand, let's do the same with listener and router component relations(hightlighted in yellow) removing listeners from visualisation
 
-[<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png" alt="Drawing" width="100%"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/first-step.png)
+[<img src="/css/images/cylon-oauth2-example/first-step.png" alt="Drawing" width="100%"/>](/css/images/cylon-oauth2-example/first-step.png)
 <br><br><br><hr><br><br><br>
 #### modular.template/Templater && modular.bidi/StaticResourceService
 As we are trying to get into Oauth2 specification and implementation details, why don't we take way the public **static resource services** (in yellow)  and the **clostache-templater** (in orange)? ... they actually don't have any relation with Oauth2 besides html rendering
-[<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/second-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/second-step.png)
+[<img src="/css/images/cylon-oauth2-example/second-step.png" alt="Drawing" style="width: 100%;"/>](/css/images/cylon-oauth2-example/second-step.png)
 <br><br><br><hr><br><br><br>
 
 #### cylon oauth webservices
 And, one pass more to take away the routers but keeping highlighted web services from both servers, authorization-server web-services in yellow, and web-server web-services in orange. Pay attention that although all of the highlighted components in this graph are webservices, some webservices depend on other webservices, as you can see with :authorization-server and :login, or :bootstrap-cover-website-website and :webapp-oauth-client
 
-[<img src="https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png" alt="Drawing" style="width: 100%;"/>](https://dl.dropboxusercontent.com/u/8688858/cylon-oauth2-example/third-step.png)
+[<img src="/css/images/cylon-oauth2-example/third-step.png" alt="Drawing" style="width: 100%;"/>](/css/images/cylon-oauth2-example/third-step.png)
 
 #### Yeah, it doesn't hurt now!
 Then, we get following webservices in two servers

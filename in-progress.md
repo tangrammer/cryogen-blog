@@ -4,13 +4,13 @@
 
 [RFC 6749#Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-1.2)
 
-![image](https://dl.dropboxusercontent.com/u/8688858/on-the-clojure-move/auth-code-flow.png)
+![image](/css/images/on-the-clojure-move/auth-code-flow.png)
 
 
 ### Oauth2 Protocol Flow
 [RFC 6749#Protocol flow](https://tools.ietf.org/html/rfc6749#section-1.2)
 
-![image](https://dl.dropboxusercontent.com/u/8688858/on-the-clojure-move/oauth2-protocol-flow.png)
+![image](/css/images/on-the-clojure-move/oauth2-protocol-flow.png)
 
  
 
